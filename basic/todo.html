@@ -185,7 +185,7 @@
                       {{item.title}}
                     </label>
                   </div>
-                  <button type="button" class="close ml-auto" aria-label="Close" @click="deleteTodo(index)">
+                  <button type="button" class="close ml-auto" aria-label="Close" @click="deleteTodo(item)">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -226,10 +226,12 @@
               </li> -->
 
             </ul>
+
             <div class="card-footer d-flex justify-content-between">
-              <span>還有 3 筆任務未完成</span>
-              <a href="#">清除所有任務</a>
+              <span>還有 {{remainTodos}} 筆任務未完成</span>
+              <a href="#" @click="deleteAll">清除所有任務</a>
             </div>
+
           </div>
         </div>
 
@@ -245,7 +247,7 @@
               }],
               cacheTodo: {},
               cacheTitle: '',
-              visibility: 'all'
+              visibility: 'all',
             },
             methods: {
               addTodo: function () {
@@ -261,8 +263,23 @@
                   this.newTodo = "";
                 }
               },
-              deleteTodo: function (index) {
-                this.todos.splice(index, 1)
+              deleteTodo: function (todo) {
+                var vm = this;
+
+                // 方法一
+                // var newIndex = '';
+                // vm.todos.forEach(function (item, key) {
+                //   if (todo.id == item.id) {
+                //     newIndex = key;
+                //   }
+                // });
+
+                // 方法二
+                let newIndex = vm.todos.findIndex(function (item, key) {
+                  return todo.id === item.id;
+                });
+
+                this.todos.splice(newIndex, 1)
               },
               editTodo: function (item) {
                 console.log(item);
@@ -276,6 +293,9 @@
               },
               cancelEdit: function () {
                 this.cacheTodo = {};
+              },
+              deleteAll: function () {
+                this.todos = [];
               }
             },
             computed: {
@@ -299,6 +319,15 @@
                   })
                   return newTodo;
                 }
+              },
+              remainTodos: function () {
+                let count = 0;
+                this.todos.forEach(function (item) {
+                  if (!item.completed) {
+                    count++;
+                  }
+                })
+                return count;
               }
             }
           });
