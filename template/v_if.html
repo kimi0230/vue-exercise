@@ -182,8 +182,10 @@
           <hr>
           <h4>v-if 與 v-show</h4>
           <p>講師說明 v-if 與 v-show 的差異</p>
-          <div class="alert alert-success" v-show="isSuccess">成功!</div>
-          <div class="alert alert-danger" v-show="!isSuccess">失敗!</div>
+          <div class="alert alert-success" v-show="isSuccess">v-show:成功!</div>
+          <div class="alert alert-danger" v-show="!isSuccess">v-show:失敗!</div>
+          <div class="alert alert-success" v-if="isSuccess">v-if:成功!</div>
+          <div class="alert alert-danger" v-else>v-else:失敗!</div>
           <div class="form-check">
             <input type="checkbox" class="form-check-input" id="isSuccess2" v-model="isSuccess">
             <label class="form-check-label" for="isSuccess2">啟用元素狀態</label>
