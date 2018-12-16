@@ -125,13 +125,16 @@
             <thead>
               <tr>
                 <th>品名</th>
-                <th class="click">價格
+                <th class="click" @click="sorting('price')">價格
                   <!-- isReverse 為反轉 className -->
-                  <span class="icon isReverse">
+                  <span class="icon" :class="{inverse: sortOption}" v-if="sortItem === 'price'">
                     <i class=" fas fa-angle-up text-success"></i>
                   </span>
                 </th>
-                <th class="click">到期日
+                <th class="click" @click="sorting('expiryDate')">到期日
+                  <span class="icon" :class="{inverse: sortOption}" v-if="sortItem === 'expiryDate'">
+                    <i class=" fas fa-angle-up text-success"></i>
+                  </span>
                 </th>
               </tr>
               <tr v-for="item in data">
@@ -185,9 +188,25 @@
                   expiryDate: 200
                 }
               ],
+              sortOption: true,
+              sortItem: ''
             },
             // 請在此撰寫 JavaScript
-            computed: {}
+            computed: {
+
+            },
+            methods: {
+              sorting: function (sortItem) {
+                var self = this;
+                self.data = self.data.sort(function (first, second) {
+                  first = first[sortItem];
+                  second = second[sortItem];
+                  self.sortItem = sortItem;
+                  return (first === second ? 0 : first > second ? 1 : -1) * (self.sortOption ? 1 : -1);
+                })
+                self.sortOption = !self.sortOption;
+              },
+            },
           });
         </script>
 
